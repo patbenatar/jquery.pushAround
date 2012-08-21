@@ -1,7 +1,12 @@
 $.fn.extend
 
   pushDown: (speed, callback) ->
-    $(@).each ->
+
+    if typeof speed == "function"
+      callback = speed
+      speed = 333
+
+    return $(@).each ->
       $el = $(@)
 
       finalHeight = $el.show().outerHeight(true)
@@ -25,13 +30,18 @@ $.fn.extend
 
       $wrapper.animate({
         height: finalHeight
-      }, =>
+      }, speed, =>
         $wrapper.replaceWith($el)
         callback() if callback?
       )
 
   pushUp: (speed, callback) ->
-    $(@).each ->
+
+    if typeof speed == "function"
+      callback = speed
+      speed = 333
+
+    return $(@).each ->
       $el = $(@)
 
       fullHeight = $el.outerHeight(true)
@@ -55,7 +65,7 @@ $.fn.extend
 
       $wrapper.animate({
         height: 0
-      }, =>
+      }, speed, =>
         $el.hide()
         $wrapper.replaceWith($el)
         callback() if callback?
